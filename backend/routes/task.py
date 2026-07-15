@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import date
 from database.models import User, Task
+from services.achievement_service import unlock_first_task
 
 from database.db import db
 from database.models import Task
@@ -154,6 +155,8 @@ def complete_task(task_id):
             user.best_streak = user.current_streak
 
     db.session.commit()
+
+    unlock_first_task(user_id)
 
     return jsonify({
         "message": "Task Completed Successfully",

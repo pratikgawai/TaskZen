@@ -9,6 +9,8 @@ from database.models import User, Task
 from routes.auth import auth
 from routes.task import task
 from routes.streak import streak
+from routes.stats import stats
+from routes.achievement import achievement
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -27,6 +29,14 @@ app.register_blueprint(streak, url_prefix="/api/streak")
 app.register_blueprint(
     dashboard,
     url_prefix="/api/dashboard"
+)
+app.register_blueprint(
+    stats,
+    url_prefix="/api/stats"
+)
+app.register_blueprint(
+    achievement,
+    url_prefix="/api/achievement"
 )
 
 
