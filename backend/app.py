@@ -11,6 +11,7 @@ from routes.task import task
 from routes.streak import streak
 from routes.stats import stats
 from routes.achievement import achievement
+from routes.habit import habit
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -37,6 +38,11 @@ app.register_blueprint(
 app.register_blueprint(
     achievement,
     url_prefix="/api/achievement"
+)
+
+app.register_blueprint(
+    habit,
+    url_prefix="/api/habit"
 )
 
 
