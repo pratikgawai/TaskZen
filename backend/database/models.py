@@ -11,6 +11,10 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    current_streak = db.Column(db.Integer, default=0)
+    best_streak = db.Column(db.Integer, default=0)
+    last_completed_date = db.Column(db.Date)
+
     # tasks = db.relationship("Task", backref="user", lazy=True)
 
     def to_dict(self):

@@ -1,3 +1,4 @@
+from routes.dashboard import dashboard
 from flask import Flask
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
@@ -23,6 +24,10 @@ migrate = Migrate(app, db)
 app.register_blueprint(auth, url_prefix="/api/auth")
 app.register_blueprint(task, url_prefix="/api/task")
 app.register_blueprint(streak, url_prefix="/api/streak")
+app.register_blueprint(
+    dashboard,
+    url_prefix="/api/dashboard"
+)
 
 
 @app.route("/")

@@ -1,5 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from datetime import date
+from database.models import User, Task
 
 from database.db import db
 from database.models import Task
@@ -99,4 +101,62 @@ def delete_task(task_id):
 
     return jsonify({
         "message": "Task Deleted Successfully"
+    }), 200
+
+from datetime import date
+
+@task.route("/complete/<int:task_id>", methods=["PATCH"])
+@jwt_required()
+def complete_task(task_id):
+
+    user_id = int(get_jwt_identity())
+
+    task = Task.query.filter_by(
+        id=task_id,
+        user_id=user_id
+    ).first()
+
+    if not task:
+        return jsonify({
+            "message": "Task not found"
+        }), 404
+
+    if task.completed:
+        return jsonify({
+            "message": "Task already completed"
+        }), 200
+
+    task.completed = True
+
+    user = User.query.get(user_id)
+
+    today = date.today()
+
+    if user.last_completed_date != today:
+
+        if user.last_completed_date is None:
+
+            user.current_streak = 1
+
+        else:
+
+            difference = (today - user.last_completed_date).days
+
+            if difference == 1:
+                user.current_streak += 1
+
+            elif difference > 1:
+                user.current_streak = 1
+
+        user.last_completed_date = today
+
+        if user.current_streak > user.best_streak:
+            user.best_streak = user.current_streak
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Task Completed Successfully",
+        "current_streak": user.current_streak,
+        "best_streak": user.best_streak
     }), 200
