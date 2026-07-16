@@ -1,3 +1,4 @@
+from flask_cors import CORS
 from routes.dashboard import dashboard
 from flask import Flask
 from flask_migrate import Migrate
@@ -15,6 +16,7 @@ from routes.habit import habit
 
 app = Flask(__name__)
 app.config.from_object(Config)
+CORS(app, origins=["http://localhost:5173"])
 
 # Initialize Database
 db.init_app(app)
