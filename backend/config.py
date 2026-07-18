@@ -1,41 +1,27 @@
-# import os
-# from dotenv import load_dotenv
-
-# load_dotenv()
-
-# class Config:
-#     SECRET_KEY = os.getenv("SECRET_KEY")
-
-#     JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-
-# SQLALCHEMY_DATABASE_URI = (
-
-#     f"mysql+pymysql://{os.getenv('root')}:"
-#     f"{os.getenv('mgRlIkkGLVYLzVWhNjJmvsXMGwIzsXDo')}@"
-#     f"{os.getenv('mysql.railway.internal')}:"
-#     f"{os.getenv('3306')}/"
-#     f"{os.getenv('railway')}"
-# )
-# SQLALCHEMY_TRACK_MODIFICATIONS = False              
-
-
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-class Config:
-    SECRET_KEY = os.getenv("taskzen_secret_key")
 
-    JWT_SECRET_KEY = os.getenv("taskzen_backend_project_2026_super_secret_key_123456789")
+class Config:
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+
+    DB_USER = os.getenv("DB_USER")
+    DB_PASSWORD = os.getenv("DB_PASSWORD")
+    DB_HOST = os.getenv("DB_HOST")
+    DB_PORT = os.getenv("DB_PORT", "3306")  # default fallback
+    DB_NAME = os.getenv("DB_NAME")
+
+    if not all([DB_USER, DB_PASSWORD, DB_HOST, DB_NAME]):
+        raise RuntimeError(
+            "Missing one or more required DB env vars: "
+            "DB_USER, DB_PASSWORD, DB_HOST, DB_NAME"
+        )
 
     SQLALCHEMY_DATABASE_URI = (
-        f"mysql+pymysql://{os.getenv('root')}:"
-        f"{os.getenv('mgRlIkkGLVYLzVWhNjJmvsXMGwIzsXDo')}@"
-        f"{os.getenv('mysql.railway.internal')}:"
-        f"{os.getenv('3306')}/"
-        f"{os.getenv('railway')}"
+        f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
-
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
