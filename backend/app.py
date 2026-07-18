@@ -16,7 +16,7 @@ from routes.habit import habit
 
 app = Flask(__name__)
 app.config.from_object(Config)
-CORS(app, origins=["http://localhost:5173"])
+CORS(app)
 
 # Initialize Database
 db.init_app(app)
@@ -57,7 +57,4 @@ def home():
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()   # Abhi ke liye tables automatically create karega
-
     app.run(debug=True)
