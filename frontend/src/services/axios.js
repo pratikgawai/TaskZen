@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://taskzen-backend-ae5d.onrender.com",
+  baseURL: "https://taskzen-backend-ae5d.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
   },
