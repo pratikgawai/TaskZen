@@ -37,4 +37,5 @@ class Config:
         f"{os.getenv('railway')}"
     )
 
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
